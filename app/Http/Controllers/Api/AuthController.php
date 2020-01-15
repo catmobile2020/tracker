@@ -17,68 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login','register']]);
-    }
-
-    /**
-     *
-     * @SWG\Post(
-     *      tags={"auth"},
-     *      path="/auth/register",
-     *      summary="register",
-     *      security={
-     *          {"jwt": {}}
-     *      },
-     *      @SWG\Parameter(
-     *         name="name",
-     *         in="formData",
-     *         required=true,
-     *         type="string",
-     *         format="string",
-     *         default="mahmoud",
-     *      ),@SWG\Parameter(
-     *         name="phone",
-     *         in="formData",
-     *         required=true,
-     *         type="string",
-     *         format="string",
-     *         default="01208971865",
-     *      ),@SWG\Parameter(
-     *         name="email",
-     *         in="formData",
-     *         required=true,
-     *         type="string",
-     *         format="string",
-     *         default="m.mohamed@cat.com.eg",
-     *      ),
-     *      @SWG\Parameter(
-     *         name="password",
-     *         in="formData",
-     *         required=true,
-     *         type="string",
-     *         format="string",
-     *         default="123456",
-     *      ),
-     *      @SWG\Response(response=200, description="token"),
-     *      @SWG\Response(response=400, description="Unauthorized"),
-     * )
-     * @param RegisterRequest $request
-     * @return AccountResource
-     */
-
-    public function register(RegisterRequest $request)
-    {
-        $user = User::create([
-            'name' => $request->name,
-            'username' => str_replace(' ','-',$request->name).'_'.rand(000,999),
-            'phone' => $request->phone,
-            'email' => $request->email,
-            'active' => 1,
-            'type' => 2,
-            'password' => $request->password,
-        ]);
-        $token = auth('api')->login($user);
-        return $this->respondWithToken($token,$user->type);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -106,15 +45,6 @@ class AuthController extends Controller
      *         format="string",
      *         default="123456",
      *      ),
-     *      @SWG\Parameter(
-     *         name="type",
-     *         in="formData",
-     *         required=true,
-     *         type="string",
-     *         description="1 => attendee , 2=> speaker",
-     *         format="string",
-     *         default="1",
-     *      ),
      *      @SWG\Response(response=200, description="token"),
      *      @SWG\Response(response=400, description="Unauthorized"),
      * )
@@ -125,16 +55,6 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $credentials = request(['email', 'password']);
-        $type =$request->type;
-
-        if ($type == 2)
-        {
-            $guard = 'speakers';
-        }else
-        {
-            $guard = 'api';
-        }
-        auth()->shouldUse($guard);
         if (! $token = auth()->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -142,9 +62,13 @@ class AuthController extends Controller
         if (!auth()->user()->active) {
             return response()->json(['error' => 'Account Dis Active Contact With admin'], 401);
         }
+        if (auth()->user()->type == 1) {
+            return response()->json(['error' => 'Wrong Account,You Must Be Client'], 401);
+        }
 
-        return $this->respondWithToken($token,$type);
+        return $this->respondWithToken($token);
     }
+
 
     /**
      *
@@ -167,7 +91,7 @@ class AuthController extends Controller
 
     /**
      *
-     * @SWG\Post(
+     * @SWG\Get(
      *      tags={"auth"},
      *      path="/auth/refresh",
      *      summary="refreshes expired token",
@@ -190,12 +114,11 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token,$type)
+    protected function respondWithToken($token)
     {
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'auth_type' => $type,
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }

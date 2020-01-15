@@ -9,61 +9,6 @@
     },
     "basePath": "/api",
     "paths": {
-        "/auth/register": {
-            "post": {
-                "tags": [
-                    "auth"
-                ],
-                "summary": "register",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "format": "string",
-                        "default": "mahmoud"
-                    },
-                    {
-                        "name": "phone",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "format": "string",
-                        "default": "01208971865"
-                    },
-                    {
-                        "name": "email",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "format": "string",
-                        "default": "m.mohamed@cat.com.eg"
-                    },
-                    {
-                        "name": "password",
-                        "in": "formData",
-                        "required": true,
-                        "type": "string",
-                        "format": "string",
-                        "default": "123456"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "token"
-                    },
-                    "400": {
-                        "description": "Unauthorized"
-                    }
-                },
-                "security": [
-                    {
-                        "jwt": []
-                    }
-                ]
-            }
-        },
         "/auth/login": {
             "post": {
                 "tags": [
@@ -86,15 +31,6 @@
                         "type": "string",
                         "format": "string",
                         "default": "123456"
-                    },
-                    {
-                        "name": "type",
-                        "in": "formData",
-                        "description": "1 => attendee , 2=> speaker",
-                        "required": true,
-                        "type": "string",
-                        "format": "string",
-                        "default": "1"
                     }
                 ],
                 "responses": {
@@ -131,7 +67,7 @@
             }
         },
         "/auth/refresh": {
-            "post": {
+            "get": {
                 "tags": [
                     "auth"
                 ],
@@ -139,6 +75,187 @@
                 "responses": {
                     "200": {
                         "description": "token"
+                    },
+                    "400": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/forms": {
+            "get": {
+                "tags": [
+                    "forms"
+                ],
+                "summary": "Get forms",
+                "responses": {
+                    "200": {
+                        "description": "objects"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/forms/{form}": {
+            "get": {
+                "tags": [
+                    "forms"
+                ],
+                "summary": "Get single form",
+                "parameters": [
+                    {
+                        "name": "form",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "object"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/account/me": {
+            "get": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Get the current logged in user",
+                "responses": {
+                    "200": {
+                        "description": "object"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/account/update": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "update My Account",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "header",
+                        "description": "1 => attendee , 2=> speaker",
+                        "required": true,
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    {
+                        "name": "name",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "format": "string",
+                        "default": "mahmoud"
+                    },
+                    {
+                        "name": "phone",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "format": "string",
+                        "default": "01205528825"
+                    },
+                    {
+                        "name": "enable_questions",
+                        "in": "formData",
+                        "required": true,
+                        "type": "integer",
+                        "default": "0"
+                    },
+                    {
+                        "name": "bio",
+                        "in": "formData",
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "format": "string",
+                        "default": "m.mohamed@cat.com.eg"
+                    },
+                    {
+                        "name": "photo",
+                        "in": "formData",
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "token"
+                    },
+                    "400": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/account/update-password": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "update My Password",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "header",
+                        "description": "1 => attendee , 2=> speaker",
+                        "required": true,
+                        "type": "integer",
+                        "format": "integer"
+                    },
+                    {
+                        "name": "current_password",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User Model"
                     },
                     "400": {
                         "description": "Unauthorized"

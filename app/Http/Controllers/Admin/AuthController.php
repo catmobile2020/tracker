@@ -22,10 +22,10 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $username = $request->username;
-        $row = User::where(function ($q) use ($username){
+        $row = User::where('type',1)->where(function ($q) use ($username){
             $q->where('username',$username)->orWhere('email',$username);
         })->first();
-        if ($row and $row->type !=2)
+        if ($row)
         {
             if ($row->active ==0)
             {
