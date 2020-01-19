@@ -22,7 +22,7 @@
                         "required": true,
                         "type": "string",
                         "format": "string",
-                        "default": "m.mohamed@cat.com.eg"
+                        "default": "a@a.com"
                     },
                     {
                         "name": "password",
@@ -111,6 +111,33 @@
                     "forms"
                 ],
                 "summary": "Get single form",
+                "parameters": [
+                    {
+                        "name": "form",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer",
+                        "format": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "object"
+                    }
+                },
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ]
+            }
+        },
+        "/forms/{form}/submit": {
+            "post": {
+                "tags": [
+                    "forms"
+                ],
+                "summary": "submit form",
                 "parameters": [
                     {
                         "name": "form",

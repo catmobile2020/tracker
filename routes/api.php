@@ -2,7 +2,6 @@
 
 Route::group(['namespace' => 'Api'] ,function (){
     Route::group(['prefix' => 'auth'], function () {
-        Route::post('register', 'AuthController@register')->name('api.register');
         Route::post('login', 'AuthController@login');
         Route::post('logout', 'AuthController@logout');
         Route::get('refresh', 'AuthController@refresh');
@@ -17,5 +16,6 @@ Route::group(['namespace' => 'Api'] ,function (){
         });
         Route::get('/forms','FormController@index');
         Route::get('/forms/{form}','FormController@show');
+        Route::post('/forms/{form}/submit','FormController@submit');
     });
 });

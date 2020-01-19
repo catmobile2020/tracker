@@ -35,7 +35,7 @@ class AuthController extends Controller
      *         required=true,
      *         type="string",
      *         format="string",
-     *         default="m.mohamed@cat.com.eg",
+     *         default="a@a.com",
      *      ),
      *      @SWG\Parameter(
      *         name="password",

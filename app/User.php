@@ -91,4 +91,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function forms()
+    {
+        return $this->hasMany(UserForms::class);
+    }
 }

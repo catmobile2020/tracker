@@ -34,4 +34,9 @@ class Form extends Model
         $this->delete();
     }
 
+    public function forms()
+    {
+        return $this->hasMany(UserForms::class);
+    }
+
 }

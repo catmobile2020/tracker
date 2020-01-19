@@ -18,6 +18,8 @@ class CreateResultsTable extends Migration
             $table->text('value')->nullable();
             $table->unsignedBigInteger('page_fields_id')->index();
             $table->foreign('page_fields_id')->references('id')->on('page_fields')->onDelete('cascade');
+            $table->unsignedBigInteger('user_forms_id')->index();
+            $table->foreign('user_forms_id')->references('id')->on('user_forms')->onDelete('cascade');
             $table->timestamps();
         });
     }

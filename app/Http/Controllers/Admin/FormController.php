@@ -6,6 +6,8 @@ use App\Form;
 use App\Helpers\UploadImage;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FormDataRequest;
+use App\Result;
+use App\UserForms;
 
 class FormController extends Controller
 {
@@ -54,5 +56,17 @@ class FormController extends Controller
     {
         $form->trash();
         return redirect()->route('admin.forms.index')->with('message','Done Successfully');
+    }
+
+    public function users(Form $form)
+    {
+        $rows = $form->forms()->latest()->paginate(20);
+        return view('admin.pages.form.user.index',compact('form','rows'));
+    }
+
+    public function formResult(Form $form,UserForms $row)
+    {
+        $result = $row->result;
+        return view('admin.pages.form.user.result',compact('form','row','result'));
     }
 }

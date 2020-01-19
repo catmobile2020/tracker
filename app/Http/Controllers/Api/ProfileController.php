@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Helpers\UploadImage;
 use App\Http\Requests\Api\RegisterRequest;
 use App\Http\Resources\AccountResource;
-use App\Order;
 use App\Http\Controllers\Controller;
-use JWTAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -27,7 +25,7 @@ class ProfileController extends Controller
      *      @SWG\Response(response=200, description="object"),
      * )
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return AccountResource
      */
     public function me(Request $request)
     {
@@ -140,7 +138,7 @@ class ProfileController extends Controller
      *      @SWG\Response(response=400, description="Unauthorized"),
      * )
      * @param Request $request
-     * @return AccountResource|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function updatePassword(Request $request)
     {

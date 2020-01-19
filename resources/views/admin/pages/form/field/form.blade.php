@@ -34,57 +34,74 @@
                             @isset($field->id)
                                 @method('PUT')
                             @endisset
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="label_name">label name</label>
-                                    <input type="text" name="label_name" class="form-control" id="label_name" placeholder="label name" value="{{$field->label_name}}">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="label_name">label name</label>
+                                        <input type="text" name="label_name" class="form-control" id="label_name" placeholder="label name" value="{{$field->label_name}}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="place_holder">place holder</label>
+                                        <input type="text" name="place_holder" class="form-control" id="place_holder" placeholder="place holder" value="{{$field->place_holder}}">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="place_holder">place holder</label>
-                                    <input type="text" name="place_holder" class="form-control" id="place_holder" placeholder="place holder" value="{{$field->place_holder}}">
+                            <div class="row {{$field->field->type == 2 ? '' : 'sr-only'}} numFields">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="min_value">min value</label>
+                                        <input type="number" name="min_value" class="form-control" id="min_value" placeholder="min value" value="{{$field->min_value}}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 sr-only numFields">
-                                <div class="form-group">
-                                    <label for="min_value">min value</label>
-                                    <input type="number" name="min_value" class="form-control" id="min_value" placeholder="min value" value="{{$field->min_value}}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 sr-only numFields">
-                                <div class="form-group">
-                                    <label for="max_value">max value</label>
-                                    <input type="number" name="max_value" class="form-control" id="max_value" placeholder="max value" value="{{$field->max_value}}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="is_required"> required</label>
-                                    <select name="is_required" class="form-control" id="is_required" >
-                                        <option value="1" {{$field->is_required == 1 ? 'selected' : ''}}>Yes</option>
-                                        <option value="0" {{$field->is_required == 0 ? 'selected' : ''}}>No</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="field_id">Field Type</label>
-                                    <select name="field_id" class="form-control changeFieldType" id="field_id" >
-                                        @foreach ($fields as $fie)
-                                            <option value="{{$fie->id}}" {{ $fie->id == $field->field_id ? 'selected' : ''}}>{{$fie->name}}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="max_value">max value</label>
+                                        <input type="number" name="max_value" class="form-control" id="max_value" placeholder="max value" value="{{$field->max_value}}">
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
-{{--                                <div class="col-lg-6 sr-only numFields">--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <label for="max_value">max value</label>--}}
-{{--                                        <input type="number" name="max_value" class="form-control" id="max_value" placeholder="max value" value="{{$field->max_value}}">--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="is_required"> required</label>
+                                        <select name="is_required" class="form-control" id="is_required" >
+                                            <option value="1" {{$field->is_required == 1 ? 'selected' : ''}}>Yes</option>
+                                            <option value="0" {{$field->is_required == 0 ? 'selected' : ''}}>No</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="field_id">Field Type</label>
+                                        <select name="field_id" class="form-control changeFieldType" id="field_id" >
+                                            @foreach ($fields as $fie)
+                                                <option value="{{$fie->id}}" {{ $fie->id == $field->field_id ? 'selected' : ''}}>{{$fie->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row  {{in_array($field->field->type,[3,4,5]) ? '' : 'sr-only'}} multiValues">
+                                <a class="btn btn-primary btn-rounded addNewOption">+</a>
+                                <div class="content">
+                                    @foreach($field->options as $option)
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label>options</label>
+                                            <input type="text" name="options[]" class="form-control" placeholder="options" value="{{$option}}">
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                    <div class="col-lg-2">
+                                        <div class="form-group">
+                                            <label>options</label>
+                                            <input type="text" name="options[]" class="form-control" placeholder="options" value="">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-sm-8 col-sm-offset-4">
@@ -103,7 +120,6 @@
 <script>
     $(document).on('change','.changeFieldType',function () {
         let value = $(this).val();
-        console.log(value);
         if (value == 2)
         {
             $('.numFields').removeClass('sr-only');
@@ -111,6 +127,26 @@
         {
             $('.numFields').addClass('sr-only');
         }
+        if ([3,4,5].includes(parseInt(value)))
+        {
+            $('.multiValues').removeClass('sr-only');
+        }else
+        {
+            $('.multiValues').addClass('sr-only');
+        }
+    });
+
+    $(document).on('click','.addNewOption',function (e) {
+        e.preventDefault();
+        let newElement = `
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <label>options</label>
+                            <input type="text" name="options[]" class="form-control" placeholder="options" value="">
+                        </div>
+                    </div>
+            `;
+        $(this).parent().find('.content').append(newElement);
     });
 </script>
 @endsection

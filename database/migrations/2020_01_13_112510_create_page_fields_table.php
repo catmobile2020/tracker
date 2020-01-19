@@ -20,6 +20,7 @@ class CreatePageFieldsTable extends Migration
             $table->integer('min_value')->nullable();
             $table->integer('max_value')->nullable();
             $table->boolean('is_required')->default(false);
+            $table->text('options')->nullable();
             $table->unsignedBigInteger('page_id')->index();
             $table->foreign('page_id')->references('id')->on('pages')->onDelete('cascade');
             $table->unsignedBigInteger('field_id');

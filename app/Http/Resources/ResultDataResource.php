@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ElementDataResource extends JsonResource
+class ResultDataResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,6 @@ class ElementDataResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-//            'name'=>$this->name,
-            'type'=>$this->type,
-        ];
+        return parent::toArray($request);
     }
 }

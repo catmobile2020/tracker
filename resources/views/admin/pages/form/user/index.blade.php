@@ -23,7 +23,7 @@
                     <div class="panel-body">
                         @if (session()->has('message'))
                             <div class="alert alert-info">
-                               <h4>{{session()->get('message')}}</h4>
+                                <h4>{{session()->get('message')}}</h4>
                             </div>
                         @endif
                         <div class="table-responsive">
@@ -31,11 +31,8 @@
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Title</th>
+                                    <th>Name</th>
                                     <th>Date</th>
-                                    <th>Address</th>
-                                    <th>Pages</th>
-                                    <th>Results</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -43,23 +40,10 @@
                                 @foreach($rows as $row)
                                     <tr class="gradeX">
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$row->title}}</td>
-                                        <td>{{$row->date}}</td>
-                                        <td>{{$row->place}}</td>
+                                        <td>{{$row->user->name}}</td>
+                                        <td>{{$row->created_at->isoFormat('LLL')}}</td>
                                         <td>
-                                            <a href="{{route('admin.pages.index',$row->id)}}" class="btn btn-info btn-rounded">Form Pages</a>
-                                        </td>
-                                        <td>
-                                            <a href="{{route('admin.forms.users',$row->id)}}" class="btn btn-info btn-rounded">Show Results</a>
-                                        </td>
-                                        <td class="size-80">
-                                            <div class="dropdown">
-                                                <a href="" data-toggle="dropdown" class="more-link"><i class="icon-dot-3 ellipsis-icon"></i></a>
-                                                <ul class="dropdown-menu dropdown-menu-right">
-                                                    <li><a href="{{route('admin.forms.edit',$row->id)}}">Edit</a></li>
-                                                    <li><a href="{{route('admin.forms.destroy',$row->id)}}">Delete</a></li>
-                                                </ul>
-                                            </div>
+                                            <a class="btn btn-success btn-rounded" href="{{route('admin.forms.users.result',[$form->id,$row->id])}}">Result</a>
                                         </td>
                                     </tr>
                                 @endforeach
