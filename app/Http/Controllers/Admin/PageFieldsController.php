@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\FieldDataRequest;
 use App\Page;
 use App\PageFields;
+use Illuminate\Http\Request;
 
 class PageFieldsController extends Controller
 {
@@ -16,10 +17,14 @@ class PageFieldsController extends Controller
         return view('admin.pages.form.field.index',compact('page','rows'));
     }
 
-    public function create(Page $page)
+    public function create(Page $page,Request $request)
     {
         $field = new PageFields();
         $fields = Field::all();
+        if ($request->ajax())
+        {
+            return view('admin.modals.field',compact('page','field','fields'));
+        }
         return view('admin.pages.form.field.form',compact('page','field','fields'));
     }
 
@@ -27,7 +32,11 @@ class PageFieldsController extends Controller
     {
         $inputs = $request->all();
         $page->fields()->create($inputs);
-        return redirect()->route('admin.fields.index',$page->id)->with('message','Done Successfully');
+        if ($request->ajax())
+        {
+            return ['status'=>true,'message' =>'Done Successfully'];
+        }
+        return redirect()->back()->with('message','Done Successfully');
     }
 
     public function show(Page $page,PageFields $field)
@@ -35,9 +44,13 @@ class PageFieldsController extends Controller
 
     }
 
-    public function edit(Page $page,PageFields $field)
+    public function edit(Page $page,PageFields $field,Request $request)
     {
         $fields = Field::all();
+        if ($request->ajax())
+        {
+            return view('admin.modals.field',compact('page','field','fields'));
+        }
         return view('admin.pages.form.field.form',compact('page','field','fields'));
     }
 
@@ -45,12 +58,16 @@ class PageFieldsController extends Controller
     {
         $inputs = $request->all();
         $field->update($inputs);
-        return redirect()->route('admin.fields.index',$page->id)->with('message','Done Successfully');
+        if ($request->ajax())
+        {
+            return ['status'=>true,'message' =>'Done Successfully'];
+        }
+        return redirect()->back()->with('message','Done Successfully');
     }
 
     public function destroy(Page $page,PageFields $field)
     {
-        $field->trash();
-        return redirect()->route('admin.fields.index',$page->id)->with('message','Done Successfully');
+        $field->delete();
+        return redirect()->back()->with('message','Done Successfully');
     }
 }

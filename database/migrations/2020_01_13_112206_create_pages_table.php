@@ -17,6 +17,7 @@ class CreatePagesTable extends Migration
             $table->bigIncrements('id');
             $table->string('title')->nullable();
             $table->text('description')->nullable();
+            $table->tinyInteger('bg_type')->default(1);  // 1=> color  2=> image
             $table->string('bg_color')->nullable();
             $table->string('btn_text')->nullable();
             $table->string('btn_color')->nullable();

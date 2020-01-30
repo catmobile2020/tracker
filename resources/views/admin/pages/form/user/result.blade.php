@@ -187,7 +187,7 @@
                             <form role="form">
                                 <div class="tab-content">
                                     @foreach($form->pages as $page)
-                                        <div class="tab-pane {{$loop->first ? 'active' : ''}}" role="tabpanel" id="step{{$loop->iteration}}" style="background-color: {{$page->bg_color}}">
+                                        <div class="tab-pane {{$loop->first ? 'active' : ''}}" role="tabpanel" id="step{{$loop->iteration}}" style="@if($page->bg_type == 1) background-color: {{$page->bg_color}}; @else background-size:cover; background-image: url({{$page->photo}}) @endif">
                                             <h3>{{$page->title}}</h3>
                                             <p>{{$page->description}}</p>
                                             @foreach($page->fields as $field)
@@ -200,6 +200,11 @@
                                             @if (!$loop->last)
                                                 <ul class="list-inline pull-right">
                                                     <li><button type="button" class="btn btn-primary next-step" style="background-color: {{$page->btn_color}}">{{$page->btn_text}}</button></li>
+                                                </ul>
+                                            @endif
+                                            @if (!$loop->first)
+                                                <ul class="list-inline pull-left">
+                                                    <li><button type="button" class="btn btn-primary prev-step" style="background-color: {{$page->btn_color}}">Previous</button></li>
                                                 </ul>
                                             @endif
                                         </div>

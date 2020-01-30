@@ -26,8 +26,15 @@ class PageDataRequest extends FormRequest
         $data =[
             'title'=>'required',
             'description'=>'required',
-            'bg_color'=>'required',
+            'bg_type'=>'required',
         ];
+        if ($this->request->get('bg_type') == 1)
+        {
+            $data['bg_color'] = 'required';
+        }else
+        {
+            $data['bg_photo'] = 'required';
+        }
         return $data;
     }
 }

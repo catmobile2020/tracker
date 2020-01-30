@@ -10,6 +10,7 @@ use App\Page;
 
 class PageController extends Controller
 {
+    use  UploadImage;
     public function index(Form $form)
     {
         $rows = $form->pages()->latest()->paginate(20);
@@ -26,6 +27,8 @@ class PageController extends Controller
     {
         $inputs = $request->all();
         $page = $form->pages()->create($inputs);
+        if ($request->bg_type == 2)
+            $this->upload($request->bg_photo,$page);
         return redirect()->route('admin.pages.index',$form->id)->with('message','Done Successfully');
     }
 
@@ -43,6 +46,8 @@ class PageController extends Controller
     {
         $inputs = $request->all();
         $page->update($inputs);
+        if ($request->bg_type == 2)
+            $this->upload($request->bg_photo,$page,true);
         return redirect()->route('admin.pages.index',$form->id)->with('message','Done Successfully');
     }
 

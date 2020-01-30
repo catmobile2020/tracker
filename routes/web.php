@@ -19,8 +19,10 @@ Route::group(['prefix'=>'/','namespace'=>'Admin','as'=>'admin.'],function (){
         Route::get('forms/{form}/destroy','FormController@destroy')->name('forms.destroy');
         Route::get('forms/{form}/users','FormController@users')->name('forms.users');
         Route::get('forms/{form}/users/{row}/result','FormController@formResult')->name('forms.users.result');
+
         Route::resource('{form}/pages','PageController');
         Route::get('{form}/pages/{page}/destroy','PageController@destroy')->name('pages.destroy');
+
         Route::resource('{page}/fields','PageFieldsController');
         Route::get('{page}/fields/{field}/destroy','PageFieldsController@destroy')->name('fields.destroy');
 

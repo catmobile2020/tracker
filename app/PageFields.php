@@ -10,12 +10,12 @@ class PageFields extends Model
 
     public function page()
     {
-        return $this->belongsTo(Page::class);
+        return $this->belongsTo(Page::class)->withDefault();
     }
 
     public function field()
     {
-        return $this->belongsTo(Field::class);
+        return $this->belongsTo(Field::class)->withDefault();
     }
 
     public function setOptionsAttribute($value)

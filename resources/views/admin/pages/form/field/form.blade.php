@@ -87,19 +87,23 @@
                             <div class="row  {{in_array($field->field->type,[3,4,5]) ? '' : 'sr-only'}} multiValues">
                                 <a class="btn btn-primary btn-rounded addNewOption">+</a>
                                 <div class="content">
-                                    @foreach($field->options as $option)
-                                    <div class="col-lg-2">
-                                        <div class="form-group">
-                                            <label>options</label>
-                                            <input type="text" name="options[]" class="form-control" placeholder="options" value="{{$option}}">
-                                        </div>
-                                    </div>
-                                    @endforeach
+                                    @isset($field->id)
+                                        @foreach($field->options as $option)
+                                            <div class="col-lg-2">
+                                                <div class="form-group">
+                                                    <label>options</label>
+                                                    <input type="text" name="options[]" class="form-control" placeholder="options" value="{{$option}}">
+                                                </div>
+                                                <a class="btn btn-danger btn-rounded removeOption">-</a>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                     <div class="col-lg-2">
                                         <div class="form-group">
                                             <label>options</label>
                                             <input type="text" name="options[]" class="form-control" placeholder="options" value="">
                                         </div>
+                                        <a class="btn btn-danger btn-rounded removeOption">-</a>
                                     </div>
                                 </div>
                             </div>
@@ -144,9 +148,15 @@
                             <label>options</label>
                             <input type="text" name="options[]" class="form-control" placeholder="options" value="">
                         </div>
+                       <a class="btn btn-danger btn-rounded removeOption">-</a>
                     </div>
             `;
         $(this).parent().find('.content').append(newElement);
+    });
+
+    $(document).on('click','.removeOption',function (e) {
+        e.preventDefault();
+        $(this).parent().remove();
     });
 </script>
 @endsection

@@ -76,6 +76,9 @@ class FormController extends Controller
      *      ),
      *      @SWG\Response(response=200, description="object"),
      * )
+     * @param Form $form
+     * @param SubmitFormRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function submit(Form $form,SubmitFormRequest $request)
     {
@@ -84,6 +87,15 @@ class FormController extends Controller
                 [
                     'value'=>"test Submit",
                     'page_fields_id'=>1
+                ],[
+                    'value'=>"9",
+                    'page_fields_id'=>2
+                ],[
+                    'value'=>"55",
+                    'page_fields_id'=>3
+                ],[
+                    'value'=>"13",
+                    'page_fields_id'=>4
                 ]
              ];
         try

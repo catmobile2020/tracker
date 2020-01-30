@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\Admin;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class FieldDataRequest extends FormRequest
 {
@@ -29,4 +31,5 @@ class FieldDataRequest extends FormRequest
         ];
         return $data;
     }
+
 }
